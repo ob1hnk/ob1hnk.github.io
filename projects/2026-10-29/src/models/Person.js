@@ -14,5 +14,8 @@ export class Person {
     this.width = width;
     this.height = height;
     this.items = items;
+    this.tradeRemaining = 0; // 남은 교환 시간 (틱)
+    this.tradeGave = null;   // 이번 교환에서 내준 Item
+    this.tradeGot = null;    // 이번 교환에서 받은 Item
   }
 }

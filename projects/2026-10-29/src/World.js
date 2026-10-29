@@ -49,8 +49,8 @@ export class World {
       if (overlaps(a, b)) {
         const [ia, ib] = trade(a, b);
         logTrade(a, b, ia, ib);
-        startTrade(a, b);
-        startTrade(b, a);
+        startTrade(a, b, ia, ib);
+        startTrade(b, a, ib, ia);
       }
     }
 

@@ -3,7 +3,7 @@ import { clampToBounds } from "./collision.js";
 const SPEED = 2;                       // 틱당 이동 거리(px)
 const WALK_MIN = 60, WALK_MAX = 100;   // 한 번에 걷는 거리(px)
 const IDLE_MIN = 30, IDLE_MAX = 90;    // 대기 시간(틱), 60틱 ≈ 1초
-const TRADE_TICKS = 120;               // 교환 중 멈춤 시간(틱), 120틱 ≈ 2초
+export const TRADE_TICKS = 120;               // 교환 중 멈춤 시간(틱), 120틱 ≈ 2초
 const LEAVE_DISTANCE = 250;
 
 function randomRange(min, max) {
@@ -49,10 +49,12 @@ export function startLeave(person, partner) {
 }
 
 // 상대를 바라보며 멈춤. 끝나면 상대 반대쪽으로 떠남
-export function startTrade(person, partner) {
+export function startTrade(person, partner, gave, got) {
   steerToward(person, partner); // 이동은 안 하고 바라보는 방향만 정함
   person.state = 'trade';
   person.partner = partner;
+  person.tradeGave = gave;
+  person.tradeGot = got;
   person.tradeRemaining = TRADE_TICKS;
 }
 
