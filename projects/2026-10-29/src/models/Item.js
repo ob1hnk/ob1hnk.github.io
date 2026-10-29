@@ -1,7 +1,7 @@
 export class Item {
-  constructor(id, name, type) {
+  constructor(id, name, theme) {
     this.id = id;
     this.name = name;
-    this.type = type;
+    this.theme = theme;
   }
 }
