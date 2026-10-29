@@ -8,8 +8,8 @@ function loadImage(src) {
 }
 
 // 반환: { A: { leftIdle, rightIdle, leftWalk, rightWalk }, B: {...}, ... }
-export async function loadSprites(themes) {
-  const sprites = {};
+export async function loadPersonImages(themes) {
+  const personImages = {};
   for (const { theme } of themes) {
     const dir = `assets/people/${theme}`;
     const [leftIdle, rightIdle, leftWalk, rightWalk] = await Promise.all([
@@ -18,7 +18,18 @@ export async function loadSprites(themes) {
       loadImage(`${dir}/left-walk.png`),
       loadImage(`${dir}/right-walk.png`),
     ]);
-    sprites[theme] = { leftIdle, rightIdle, leftWalk, rightWalk };
+    personImages[theme] = { leftIdle, rightIdle, leftWalk, rightWalk };
   }
-  return sprites;
+  return personImages;
+}
+
+// 반환: { A1: img, A2: img, ... }
+export async function loadItemImages(themes) {
+  const names = themes.flatMap(def => def.items);
+  const images = await Promise.all(
+    names.map(name => loadImage(`assets/items/${name}.png`))
+  );
+  const result = {};
+  names.forEach((name, i) => { result[name] = images[i]; });
+  return result;
 }

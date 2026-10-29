@@ -28,3 +28,9 @@ export function clampToBounds(p, width, height) {
   p.x = Math.min(Math.max(p.x, p.width / 2), width - p.width / 2);
   p.y = Math.min(Math.max(p.y, p.height / 2), height - p.height / 2);
 }
+
+// 점 (x, y)가 몸 상자 안에 있는지
+export function containsPoint(p, x, y) {
+  return Math.abs(x - p.x) <= p.width / 2 &&
+         Math.abs(y - p.y) <= p.height / 2;
+}

@@ -1,4 +1,4 @@
-import { overlaps, separate, clampToBounds } from './logic/collision.js';
+import { overlaps, separate, clampToBounds, containsPoint } from './logic/collision.js';
 import { move, startApproach, startTrade } from './logic/movement.js';
 import { trade } from './logic/trade.js';
 import { logTrade } from './debug.js';
@@ -10,7 +10,7 @@ function pairKey([a, b]) {
 }
 
 function isBusy(p) {
-  return p.state === 'approach' || p.state === 'leave';
+  return p.state === 'approach' || p.state === 'trade' || p.state === 'leave';
 }
 
 export class World {
@@ -24,9 +24,11 @@ export class World {
     this.tick = 0;                // 경과 틱 수 (애니메이션용)
   }
 
-  step() {
+  step(hovered = null) {
     this.tick++;
-    for (const p of this.people) move(p, this.width, this.height);
+    for (const p of this.people) {
+        if (p !== hovered) move(p, this.width, this.height);
+    }
 
     // 1. 새로 알아차린 쌍은 서로를 향해 걷기 시작
     const prevKeys = new Set(this.noticed.map(pairKey));
@@ -73,5 +75,10 @@ export class World {
       }
     }
     return pairs;
+  }
+
+    // (x, y)에 있는 사람, 없으면 null
+  personAt(x, y) {
+    return this.people.find(p => containsPoint(p, x, y)) ?? null;
   }
 }
